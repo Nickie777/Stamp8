@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stamp8", "Stamp8\Stamp8.csproj", "{29A3D431-BF91-4E39-BADB-CEB60839FEBF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{29A3D431-BF91-4E39-BADB-CEB60839FEBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29A3D431-BF91-4E39-BADB-CEB60839FEBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29A3D431-BF91-4E39-BADB-CEB60839FEBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29A3D431-BF91-4E39-BADB-CEB60839FEBF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0871C2AE-3C8F-41DF-BBC8-B3B497FDA8B6}
+	EndGlobalSection
+EndGlobal
