@@ -30,13 +30,17 @@
         {
             this.panelMain = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.pdfViewer1 = new PdfiumViewer.PdfViewer();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.операцииToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.установитьПечатиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.режимРедактированияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.служебныеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.заполнитьКнопкиПечатейToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.тестToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.labelTablesOfButton = new System.Windows.Forms.Label();
+            this.numericUpDownCurrentPage = new System.Windows.Forms.NumericUpDown();
+            this.textBoxEditMode = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -46,7 +50,7 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.тестToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.labelCurrentPage = new System.Windows.Forms.Label();
             this.panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -57,6 +61,7 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCurrentPage)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
@@ -88,6 +93,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.pdfViewer1);
             this.splitContainer1.Panel1.Controls.Add(this.menuStrip1);
             // 
             // splitContainer1.Panel2
@@ -96,6 +102,15 @@
             this.splitContainer1.Size = new System.Drawing.Size(800, 450);
             this.splitContainer1.SplitterDistance = 563;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // pdfViewer1
+            // 
+            this.pdfViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pdfViewer1.Location = new System.Drawing.Point(0, 24);
+            this.pdfViewer1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.pdfViewer1.Name = "pdfViewer1";
+            this.pdfViewer1.Size = new System.Drawing.Size(563, 426);
+            this.pdfViewer1.TabIndex = 1;
             // 
             // menuStrip1
             // 
@@ -111,7 +126,8 @@
             // операцииToolStripMenuItem
             // 
             this.операцииToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.установитьПечатиToolStripMenuItem});
+            this.установитьПечатиToolStripMenuItem,
+            this.режимРедактированияToolStripMenuItem});
             this.операцииToolStripMenuItem.Name = "операцииToolStripMenuItem";
             this.операцииToolStripMenuItem.Size = new System.Drawing.Size(75, 20);
             this.операцииToolStripMenuItem.Text = "Операции";
@@ -119,9 +135,16 @@
             // установитьПечатиToolStripMenuItem
             // 
             this.установитьПечатиToolStripMenuItem.Name = "установитьПечатиToolStripMenuItem";
-            this.установитьПечатиToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.установитьПечатиToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
             this.установитьПечатиToolStripMenuItem.Text = "Установить печати";
             this.установитьПечатиToolStripMenuItem.Click += new System.EventHandler(this.установитьПечатиToolStripMenuItem_Click);
+            // 
+            // режимРедактированияToolStripMenuItem
+            // 
+            this.режимРедактированияToolStripMenuItem.Name = "режимРедактированияToolStripMenuItem";
+            this.режимРедактированияToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.режимРедактированияToolStripMenuItem.Text = "Режим редактирования";
+            this.режимРедактированияToolStripMenuItem.Click += new System.EventHandler(this.режимРедактированияToolStripMenuItem_Click);
             // 
             // служебныеToolStripMenuItem
             // 
@@ -139,6 +162,13 @@
             this.заполнитьКнопкиПечатейToolStripMenuItem.Text = "Заполнить кнопки печатей";
             this.заполнитьКнопкиПечатейToolStripMenuItem.Click += new System.EventHandler(this.заполнитьКнопкиПечатейToolStripMenuItem_Click);
             // 
+            // тестToolStripMenuItem
+            // 
+            this.тестToolStripMenuItem.Name = "тестToolStripMenuItem";
+            this.тестToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.тестToolStripMenuItem.Text = "Тест";
+            this.тестToolStripMenuItem.Click += new System.EventHandler(this.тестToolStripMenuItem_ClickAsync);
+            // 
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -148,7 +178,9 @@
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.labelTablesOfButton);
+            this.splitContainer2.Panel1.Controls.Add(this.labelCurrentPage);
+            this.splitContainer2.Panel1.Controls.Add(this.numericUpDownCurrentPage);
+            this.splitContainer2.Panel1.Controls.Add(this.textBoxEditMode);
             // 
             // splitContainer2.Panel2
             // 
@@ -157,14 +189,28 @@
             this.splitContainer2.SplitterDistance = 163;
             this.splitContainer2.TabIndex = 0;
             // 
-            // labelTablesOfButton
+            // numericUpDownCurrentPage
             // 
-            this.labelTablesOfButton.AutoSize = true;
-            this.labelTablesOfButton.Location = new System.Drawing.Point(4, 149);
-            this.labelTablesOfButton.Name = "labelTablesOfButton";
-            this.labelTablesOfButton.Size = new System.Drawing.Size(226, 15);
-            this.labelTablesOfButton.TabIndex = 0;
-            this.labelTablesOfButton.Text = "Выберите листы для установки печатей";
+            this.numericUpDownCurrentPage.ImeMode = System.Windows.Forms.ImeMode.AlphaFull;
+            this.numericUpDownCurrentPage.Location = new System.Drawing.Point(128, 40);
+            this.numericUpDownCurrentPage.Name = "numericUpDownCurrentPage";
+            this.numericUpDownCurrentPage.Size = new System.Drawing.Size(41, 23);
+            this.numericUpDownCurrentPage.TabIndex = 1;
+            this.numericUpDownCurrentPage.Tag = "";
+            this.numericUpDownCurrentPage.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // textBoxEditMode
+            // 
+            this.textBoxEditMode.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textBoxEditMode.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.textBoxEditMode.Location = new System.Drawing.Point(0, 0);
+            this.textBoxEditMode.Name = "textBoxEditMode";
+            this.textBoxEditMode.Size = new System.Drawing.Size(233, 35);
+            this.textBoxEditMode.TabIndex = 0;
             // 
             // panel1
             // 
@@ -274,12 +320,14 @@
             this.flowLayoutPanel2.Size = new System.Drawing.Size(227, 65);
             this.flowLayoutPanel2.TabIndex = 1;
             // 
-            // тестToolStripMenuItem
+            // labelCurrentPage
             // 
-            this.тестToolStripMenuItem.Name = "тестToolStripMenuItem";
-            this.тестToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
-            this.тестToolStripMenuItem.Text = "Тест";
-            this.тестToolStripMenuItem.Click += new System.EventHandler(this.тестToolStripMenuItem_Click);
+            this.labelCurrentPage.AutoSize = true;
+            this.labelCurrentPage.Location = new System.Drawing.Point(14, 42);
+            this.labelCurrentPage.Name = "labelCurrentPage";
+            this.labelCurrentPage.Size = new System.Drawing.Size(108, 15);
+            this.labelCurrentPage.TabIndex = 2;
+            this.labelCurrentPage.Text = "Текущая страница";
             // 
             // Form1
             // 
@@ -303,6 +351,7 @@
             this.splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCurrentPage)).EndInit();
             this.panel1.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
@@ -330,7 +379,6 @@
         private SplitContainer splitContainer2;
         private ToolStripMenuItem служебныеToolStripMenuItem;
         private ToolStripMenuItem заполнитьКнопкиПечатейToolStripMenuItem;
-        private Label labelTablesOfButton;
         private Panel panel1;
         private FlowLayoutPanel flowLayoutPanel;
         private GroupBox groupBox1;
@@ -341,5 +389,10 @@
         private SplitContainer splitContainer3;
         private SplitContainer splitContainer4;
         private ToolStripMenuItem тестToolStripMenuItem;
+        private PdfiumViewer.PdfViewer pdfViewer1;
+        private ToolStripMenuItem режимРедактированияToolStripMenuItem;
+        private TextBox textBoxEditMode;
+        private NumericUpDown numericUpDownCurrentPage;
+        private Label labelCurrentPage;
     }
 }

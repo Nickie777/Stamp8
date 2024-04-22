@@ -42,3 +42,14 @@ C:\repos\Stamp8\Stamp8\Stamp8\bin\Debug\net6.0-windows\itext.bouncy-castle-adapt
 C:\repos\Stamp8\Stamp8\Stamp8\bin\Debug\net6.0-windows\bc-fips-1.0.2.dll
 C:\repos\Stamp8\Stamp8\Stamp8\bin\Debug\net6.0-windows\bcpkix-fips-1.0.2.dll
 C:\repos\Stamp8\Stamp8\Stamp8\bin\Debug\net6.0-windows\itext.bouncy-castle-fips-adapter.dll
+C:\repos\Stamp8\Stamp8\Stamp8\bin\Debug\net6.0-windows\icudt.dll
+C:\repos\Stamp8\Stamp8\Stamp8\bin\Debug\net6.0-windows\x64\pdfium.dll
+C:\repos\Stamp8\Stamp8\Stamp8\bin\Debug\net6.0-windows\x86\pdfium.dll
+C:\repos\Stamp8\Stamp8\Stamp8\bin\Debug\net6.0-windows\libpdfium.dylib
+C:\repos\Stamp8\Stamp8\Stamp8\bin\Debug\net6.0-windows\Patagames.Pdf.Gdi.dll
+C:\repos\Stamp8\Stamp8\Stamp8\bin\Debug\net6.0-windows\Patagames.Pdf.WinForms.dll
+C:\repos\Stamp8\Stamp8\Stamp8\bin\Debug\net6.0-windows\Patagames.Pdf.Wpf.dll
+C:\repos\Stamp8\Stamp8\Stamp8\bin\Debug\net6.0-windows\Patagames.Pdf.dll
+C:\repos\Stamp8\Stamp8\Stamp8\bin\Debug\net6.0-windows\PdfiumViewer.dll
+C:\repos\Stamp8\Stamp8\Stamp8\bin\Debug\net6.0-windows\de\PdfiumViewer.resources.dll
+C:\repos\Stamp8\Stamp8\Stamp8\bin\Debug\net6.0-windows\nl\PdfiumViewer.resources.dll

@@ -11,6 +11,9 @@ using iText.Layout.Element;
 using iText.Layout.Properties;
 using iText.Kernel.Pdf.Layer;
 using iText.Kernel.Pdf.Xobject;
+using PdfiumViewer;
+using Microsoft.VisualBasic;
+using Patagames.Pdf.Net.Wrappers;
 
 namespace Stamp8
 {
@@ -28,7 +31,8 @@ namespace Stamp8
         private int firstStampHeight = 200;
         private int firstFacsimileCoordinateX = 150;
         private int firstFacsimileCoordinateY = 150;
-
+        private List<StampPictures> StampPicturesList = new List<StampPictures>();
+        //private PdfiumViewer.PdfDocument pdfDocumentViewver;
         public Form1(string[] args, int mode)
         {
             //outputPdfFilePath = Path.GetTempFileName();
@@ -37,14 +41,74 @@ namespace Stamp8
             this.mode = mode;
             InitializeComponent();
             setPageCount();
-            //добавить метод отображения
-            //метод заполнения 
+            //метод обновления отображения
+            updatePDFViewer(args[0]);
+            //метод заполнения кнопок печатей
+            setButtons();
+            //метод обновления режима редактиварония
+            updateEditMode(false);
+        }
+
+        private void updateEditMode(bool value)
+        {
+            if (value) 
+            {
+                editMode = true;
+                textBoxEditMode.Text = "Режим редактирования";
+                textBoxEditMode.BackColor = System.Drawing.Color.Red;
+                labelCurrentPage.Visible = true;
+                numericUpDownCurrentPage.Visible = true;
+            }
+            else
+            {
+                editMode = false;
+                textBoxEditMode.Text = "Режим просмотра";
+                textBoxEditMode.BackColor = System.Drawing.Color.LightBlue;
+                labelCurrentPage.Visible = false;
+                numericUpDownCurrentPage.Visible = false;
+            }
+        }
+
+        private void setButtons()
+        {
+            if (mode == 3)
+            {
+                for (var i = 1; i <= pageCount; i++)
+                {
+                    //скрываем базовые печати
+                    groupBox1.Visible = false;
+                    //печати без подписей
+                    var button = new Button();
+                    button.Text = $"Стр {i}";
+                    button.BackColor = System.Drawing.Color.LightBlue;
+                    button.Width = 50;
+                    button.Margin = new Padding(3); // Отступ между кнопками
+                    button.Click += Button_Click; // Обработчик события Click
+                    flowLayoutPanel1.Controls.Add(button);
+                    //подписи
+                    var button1 = new Button();
+                    button1.Text = $"Стр {i}";
+                    button1.BackColor = System.Drawing.Color.LightBlue;
+                    button1.Width = 50;
+                    button1.Margin = new Padding(3); // Отступ между кнопками
+                    button1.Click += Button1_Click; // Обработчик события Click
+                    flowLayoutPanel2.Controls.Add(button1);
+                }
+
+            }
+        }
+
+        private void updatePDFViewer(string updNamd)
+        {
+            pdfViewer1.Document = PdfiumViewer.PdfDocument.Load(updNamd);
+            pdfViewer1.Show();
+            //pdfViewer1.Document = pdfDocumentViewver;
         }
 
         private void setPageCount()
         {
             // Создание объекта PdfDocument
-            using (PdfDocument pdfDocument = new PdfDocument(new PdfReader(args[0])))
+            using (iText.Kernel.Pdf.PdfDocument pdfDocument = new iText.Kernel.Pdf.PdfDocument(new PdfReader(args[0])))
             {
                 // Получение количества страниц в документе
                 pageCount = pdfDocument.GetNumberOfPages();
@@ -57,7 +121,7 @@ namespace Stamp8
             outputPdfFilePath = System.IO.Path.ChangeExtension(System.IO.Path.GetTempFileName(), ".pdf");
             using (PdfReader pdfReader = new PdfReader(pdfFilePath))
             using (PdfWriter pdfWriter = new PdfWriter(outputPdfFilePath))
-            using (PdfDocument pdfDocument = new PdfDocument(pdfReader, pdfWriter))
+            using (iText.Kernel.Pdf.PdfDocument pdfDocument = new iText.Kernel.Pdf.PdfDocument(pdfReader, pdfWriter))
             {
                 ImageData imageData = ImageDataFactory.Create(imageFilePath);
                 imageData.SetWidth(width);
@@ -79,7 +143,7 @@ namespace Stamp8
         {
             using (PdfReader pdfReader = new PdfReader(pdfFilePath))
             using (PdfWriter pdfWriter = new PdfWriter(outputPdfFilePath))
-            using (PdfDocument pdfDocument = new PdfDocument(pdfReader, pdfWriter))
+            using (iText.Kernel.Pdf.PdfDocument pdfDocument = new iText.Kernel.Pdf.PdfDocument(pdfReader, pdfWriter))
             {
                 Document document = new Document(pdfDocument);
 
@@ -157,8 +221,10 @@ namespace Stamp8
                             if (int.TryParse(originalString, out number))
                             {
                                 MessageBox.Show("Ставим печать на странице №" + number);
-                                await OverlayImageOnPDF5(outputPdfFilePath, args[1], firstStampCoordinateX, firstStampCoordinateY, firstStampWidth, firstStampHeight, number);
-                                MessageBox.Show(outputPdfFilePath);
+                                //await OverlayImageOnPDF5(outputPdfFilePath, args[1], firstStampCoordinateX, firstStampCoordinateY, firstStampWidth, firstStampHeight, number);
+                                var v = await OverlayImageOnPDF6(outputPdfFilePath, args[1], firstStampCoordinateX, firstStampCoordinateY, firstStampWidth, firstStampHeight, number);
+                                updatePDFViewer(outputPdfFilePath);
+                                //MessageBox.Show(outputPdfFilePath);
                             }
                             else
                             {
@@ -230,19 +296,18 @@ namespace Stamp8
 
 
 
-
-        private async Task OverlayImageOnPDF5(string pdfFilePath, string imageFilePath, float x, float y, int width, int height, int pageNumber)
+        private async Task<string> OverlayImageOnPDF5(string pdfFilePath, string imageFilePath, float x, float y, int width, int height, int pageNumber)
         {
-            string outputPdfFilePath = System.IO.Path.ChangeExtension(System.IO.Path.GetTempFileName(), ".pdf");
+            outputPdfFilePath = System.IO.Path.ChangeExtension(System.IO.Path.GetTempFileName(), ".pdf");
 
             using (PdfReader pdfReader = new PdfReader(pdfFilePath))
             using (PdfWriter pdfWriter = new PdfWriter(outputPdfFilePath))
-            using (var pdfDocument = new PdfDocument(pdfReader, pdfWriter))
+            using (var pdfDocument = new iText.Kernel.Pdf.PdfDocument(pdfReader, pdfWriter))
             {
                 var doc = new Document(pdfDocument);
 
                 // Получаем страницу, на которую нужно добавить изображение
-                PdfPage page = pdfDocument.GetPage(pageNumber);
+                PdfPage page = pdfDocument.GetPage(2);
 
                 // Загружаем изображение
                 ImageData imageData = ImageDataFactory.Create(imageFilePath);
@@ -257,18 +322,76 @@ namespace Stamp8
 
                 // Добавляем изображение на страницу
                 doc.Add(image);
-                
+                // Добавляем изображение на страницу
+                //new Document(page.GetDocument()).Add(image);
+
             }
-
-            MessageBox.Show(outputPdfFilePath);
+            return outputPdfFilePath;
+            //MessageBox.Show(outputPdfFilePath);
         }
 
-        private void тестToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void тестToolStripMenuItem_ClickAsync(object sender, EventArgs e)
         {
-            OverlayImageOnPDF5(outputPdfFilePath, args[1], firstStampCoordinateX, firstStampCoordinateY, firstStampWidth, firstStampHeight, 1);
+            //var w = await OverlayImageOnPDF5(outputPdfFilePath, args[1], firstStampCoordinateX, firstStampCoordinateY, firstStampWidth, firstStampHeight, 1);
+            updatePDFViewer(outputPdfFilePath);
+        }
+        private async Task<string> OverlayImageOnPDF6(string pdfFilePath, string imageFilePath, float x, float y, int width, int height, int pageNumber)
+        {
+            outputPdfFilePath = System.IO.Path.ChangeExtension(System.IO.Path.GetTempFileName(), ".pdf");
+
+            using (PdfReader pdfReader = new PdfReader(pdfFilePath))
+            using (PdfWriter pdfWriter = new PdfWriter(outputPdfFilePath))
+            using (var pdfDocument = new iText.Kernel.Pdf.PdfDocument(pdfReader, pdfWriter))
+            {
+                // Получаем страницу, на которую нужно добавить изображение
+                PdfPage page = pdfDocument.GetPage(pageNumber);
+
+
+
+ 
+
+                //PdfLayer layer = new PdfLayer("Stamp", pdfDocument);
+
+                // Добавляем слой в документ
+                //pdfDocument.GetCatalog().AddOCGRadioGroup(layer);
+
+                //PdfLayer pdflayer = new PdfLayer("Stamp", pdfDocument); //+
+                //pdflayer.IsOn();                                        //+
+                
+                // Создаем объект изображения
+                iText.Layout.Element.Image image = new iText.Layout.Element.Image(ImageDataFactory.Create(imageFilePath));
+
+
+
+                // Устанавливаем позицию и размер изображения
+                image.SetFixedPosition(x, y);
+                image.SetWidth(width);
+                image.SetHeight(height);
+
+                // Создаем прямоугольник, представляющий область страницы
+                iText.Kernel.Geom.Rectangle pageSize = page.GetPageSize();
+
+                // Создаем объект Canvas для добавления изображения на страницу
+                Canvas canvas = new Canvas(new PdfCanvas(page), pageSize);
+
+                // Добавляем изображение на страницу
+                //canvas.BeginLayer(ocg);
+                canvas.Add(image);
+                // Создаем экземпляр StampPictures
+                StampPictures stampPictures = new StampPictures();
+                stampPictures.image = image;
+                stampPictures.filePath = imageFilePath;
+                stampPictures.pageNumber= pageNumber;
+                StampPicturesList.Add(stampPictures);
+            }           
+
+
+            return outputPdfFilePath;
         }
 
-      
-
+        private void режимРедактированияToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            updateEditMode(true);
+        }
     }
 }
