@@ -9,6 +9,7 @@ namespace Stamp8
     internal class StampPictures
     {
         public int pageNumber { get; set; }
+        public int typePicture { get; set; } = 1;  // 1 Stamp 2 Facsimile
         public string filePath { get; set; }
         public int xCoordinate { get; set; } = 0;
         public int yCoordinate { get; set; } = 0;
