@@ -22,8 +22,10 @@ namespace Stamp8
         private int firstStampCoordinateY = 100;
         private int firstStampWidth = 200;
         private int firstStampHeight = 200;
+        private float firstStampScale = 2;
         private int firstFacsimileCoordinateX = 150;
         private int firstFacsimileCoordinateY = 150;
+        private float firstFacsimileScale = 2;
         private float widthPagePDF;
         private float heightPagePDF;
         private List<StampPictures> StampPicturesList = new List<StampPictures>();
@@ -41,6 +43,7 @@ namespace Stamp8
             updatePDFViewer(args[0]);
             //метод заполнения кнопок печатей
             setButtons();
+            dataGridViewStamps.DataSource= StampPicturesList;
             //метод обновления режима редактиварония
             updateEditMode(false);
         }
@@ -66,6 +69,7 @@ namespace Stamp8
                 radioButtonChangeSize.Visible = true;
                 режимПросмотраToolStripMenuItem.Visible = true;
                 режимРедактированияToolStripMenuItem.Visible = false;
+                dataGridViewStamps.Visible = true;
             }
             else
             {
@@ -81,6 +85,7 @@ namespace Stamp8
                 radioButtonChangeSize.Visible = false;
                 режимПросмотраToolStripMenuItem.Visible = false;
                 режимРедактированияToolStripMenuItem.Visible = true;
+                dataGridViewStamps.Visible = false;
             }
         }
 
@@ -163,6 +168,7 @@ namespace Stamp8
         private void установитьПечатиToolStripMenuItem_Click(object sender, EventArgs e)
         {
             StampPicturesList.Clear();
+            outputPdfFilePath = args[0];
             //if (setFirst) 
             {
                 if (mode == 3)
@@ -184,6 +190,8 @@ namespace Stamp8
 
         private async void setStamp3()
         {
+            StampPicturesList.Clear();
+            
             foreach (Control control in flowLayoutPanel1.Controls)
             {
                 
@@ -204,10 +212,20 @@ namespace Stamp8
                             {
                                 MessageBox.Show("Ставим печать на странице №" + number);
                                 //await OverlayImageOnPDF5(outputPdfFilePath, args[1], firstStampCoordinateX, firstStampCoordinateY, firstStampWidth, firstStampHeight, number);
-                                var pic1 = await OverlayImageOnPDF(outputPdfFilePath, args[1], firstStampCoordinateX, firstStampCoordinateY, firstStampWidth, firstStampHeight, number,1);
-                               // updatePDFViewer(outputPdfFilePath);
+                                //var pic1 = await OverlayImageOnPDF(outputPdfFilePath, args[1], firstStampCoordinateX, firstStampCoordinateY, firstStampWidth, firstStampHeight, number,1);
+                                // updatePDFViewer(outputPdfFilePath);
                                 //var pic2 = await OverlayImageOnPDF(outputPdfFilePath, args[2], firstFacsimileCoordinateX, firstFacsimileCoordinateY, firstStampWidth, firstStampHeight, number);
-                                updatePDFViewer(outputPdfFilePath);
+                                StampPictures stampPictures = new StampPictures();
+                                stampPictures.typePicture = 1;
+                                stampPictures.height = firstStampHeight;
+                                stampPictures.width = firstStampWidth;
+                                stampPictures.pageNumber = number;
+                                stampPictures.xCoordinate = firstStampCoordinateX;
+                                stampPictures.yCoordinate = firstStampCoordinateY;
+                                stampPictures.scale= firstStampScale;
+                                stampPictures.rotation = 0;
+                                StampPicturesList.Add(stampPictures);
+                                //updatePDFViewer(outputPdfFilePath);
                                 //MessageBox.Show(outputPdfFilePath);
                             }
                             else
@@ -243,8 +261,18 @@ namespace Stamp8
                                 //await OverlayImageOnPDF5(outputPdfFilePath, args[1], firstStampCoordinateX, firstStampCoordinateY, firstStampWidth, firstStampHeight, number);
                                 //var pic1 = await OverlayImageOnPDF(outputPdfFilePath, args[1], firstStampCoordinateX, firstStampCoordinateY, firstStampWidth, firstStampHeight, number);
                                 // updatePDFViewer(outputPdfFilePath);
-                                var pic2 = await OverlayImageOnPDF(outputPdfFilePath, args[2], firstFacsimileCoordinateX, firstFacsimileCoordinateY, firstStampWidth, firstStampHeight, number,2);
-                                updatePDFViewer(outputPdfFilePath);
+                                //var pic2 = await OverlayImageOnPDF(outputPdfFilePath, args[2], firstFacsimileCoordinateX, firstFacsimileCoordinateY, firstStampWidth, firstStampHeight, number,2);
+                                StampPictures stampPictures = new StampPictures();
+                                stampPictures.typePicture = 2;
+                                stampPictures.height = firstStampHeight;
+                                stampPictures.width = firstStampWidth;
+                                stampPictures.pageNumber = number;
+                                stampPictures.xCoordinate = firstFacsimileCoordinateX;
+                                stampPictures.yCoordinate = firstFacsimileCoordinateY;
+                                stampPictures.scale = firstFacsimileScale;
+                                stampPictures.rotation = 0;
+                                StampPicturesList.Add(stampPictures);
+                                //updatePDFViewer(outputPdfFilePath);
                                 //MessageBox.Show(outputPdfFilePath);
                             }
                             else
@@ -258,11 +286,80 @@ namespace Stamp8
                 }
             }
 
+            CreatePDFOnStampPicturesList();
+
+        }
+
+        private async void CreatePDFOnStampPicturesList()
+        {
+            foreach (var indexer in StampPicturesList) 
+            { 
+                if (indexer != null) 
+                {
+                    if (indexer.typePicture == 1) 
+                    {
+                        //outputPdfFilePath = System.IO.Path.ChangeExtension(System.IO.Path.GetTempFileName(), ".pdf");
+                        outputPdfFilePath = await OverlayImageOnPDF8(outputPdfFilePath, args[1], indexer.xCoordinate, indexer.yCoordinate, indexer.width, indexer.width, indexer.pageNumber, indexer.typePicture, indexer.scale, indexer.rotation);
+                    }
+                    
+                    if (indexer.typePicture == 2)
+                    {
+                        //outputPdfFilePath = System.IO.Path.ChangeExtension(System.IO.Path.GetTempFileName(), ".pdf");
+                        outputPdfFilePath = await OverlayImageOnPDF8(outputPdfFilePath, args[2], indexer.xCoordinate, indexer.yCoordinate, indexer.width, indexer.width, indexer.pageNumber, indexer.typePicture, indexer.scale, indexer.rotation);
+
+                    }
+                }
+                updatePDFViewer(outputPdfFilePath);
+            }
+        }
+
+        private async Task<string> OverlayImageOnPDF8(string pdfFilePath, string pathPicture, int xCoordinate, int yCoordinate, int width, int height, int pageNumber, int typePicture, float scale, int rotation)
+        {
+            outputPdfFilePath = System.IO.Path.ChangeExtension(System.IO.Path.GetTempFileName(), ".pdf");
+            using (PdfReader pdfReader = new PdfReader(pdfFilePath))
+            using (PdfWriter pdfWriter = new PdfWriter(outputPdfFilePath))
+            using (var pdfDocument = new iText.Kernel.Pdf.PdfDocument(pdfReader, pdfWriter))
+            {
+                // Получаем страницу, на которую нужно добавить изображение
+                PdfPage page = pdfDocument.GetPage(pageNumber);
+
+                //PdfLayer layer = new PdfLayer("Stamp", pdfDocument);
+
+                // Добавляем слой в документ
+                //pdfDocument.GetCatalog().AddOCGRadioGroup(layer);
+
+                //PdfLayer pdflayer = new PdfLayer("Stamp", pdfDocument); //+
+                //pdflayer.IsOn();                                        //+
+
+                // Создаем объект изображения
+                iText.Layout.Element.Image image = new iText.Layout.Element.Image(ImageDataFactory.Create(pathPicture));
 
 
 
 
+                // Устанавливаем позицию и размер изображения
+                image.SetFixedPosition(xCoordinate, yCoordinate);
+                image.SetWidth(width);
+                //image.SetWidth(image.GetImageWidth());
+                image.SetHeight(height);
+                image.Scale(scale, scale);
+                //image.SetHeight(image.GetImageHeight());
 
+                // Создаем прямоугольник, представляющий область страницы
+                iText.Kernel.Geom.Rectangle pageSize = page.GetPageSize();
+
+                // Создаем объект Canvas для добавления изображения на страницу
+                Canvas canvas = new Canvas(new PdfCanvas(page), pageSize);
+
+                // Добавляем изображение на страницу
+                //canvas.BeginLayer(ocg);
+                canvas.Add(image);
+                canvas.Close();
+                //globalPdfDocument = pdfDocument;
+
+            }
+
+            return outputPdfFilePath;
         }
 
         private void заполнитьКнопкиПечатейToolStripMenuItem_Click(object sender, EventArgs e)
@@ -419,7 +516,7 @@ namespace Stamp8
                 {
                     if (currentEditPage == stampPicture.pageNumber) 
                     {
-                      MessageBox.Show(stampPicture.pageNumber.ToString());
+                      //MessageBox.Show(stampPicture.pageNumber.ToString());
                         //определяем, какой объект меняем
                         string selectedValue = comboBoxChangeObject.SelectedItem.ToString();
                         if (selectedValue == "Печать") 
@@ -427,7 +524,7 @@ namespace Stamp8
                             if (stampPicture.typePicture == 1) 
                             {
                                 stampPicture.scale = trackBarChange.Value;
-                                stampPicture.image.Scale(trackBarChange.Value, trackBarChange.Value);
+                                //stampPicture.image.Scale(trackBarChange.Value, trackBarChange.Value);
                                 //var result = await updateAddingImage(stampPicture);
 
                             }
@@ -437,11 +534,12 @@ namespace Stamp8
                             if (stampPicture.typePicture == 2)
                             {
                                 stampPicture.scale = trackBarChange.Value;
-                                stampPicture.image.Scale(trackBarChange.Value, trackBarChange.Value);
+                                //stampPicture.image.Scale(trackBarChange.Value, trackBarChange.Value);
                                 //var result = await updateAddingImage(stampPicture);
                             }
                         }
-                        updatePDFViewer(outputPdfFilePath);
+                        CreatePDFOnStampPicturesList();
+                        //updatePDFViewer(outputPdfFilePath);
                     }
                     else
                     {

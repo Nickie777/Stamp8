@@ -40,9 +40,10 @@
             this.заполнитьКнопкиПечатейToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.тестToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.dataGridViewStamps = new System.Windows.Forms.DataGridView();
+            this.comboBoxChangeObject = new System.Windows.Forms.ComboBox();
             this.radioButtonChangeSize = new System.Windows.Forms.RadioButton();
             this.labelCurrentImage = new System.Windows.Forms.Label();
-            this.trackBarChange = new System.Windows.Forms.TrackBar();
             this.labelCurrentPage = new System.Windows.Forms.Label();
             this.numericUpDownCurrentPage = new System.Windows.Forms.NumericUpDown();
             this.textBoxEditMode = new System.Windows.Forms.TextBox();
@@ -55,7 +56,7 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.comboBoxChangeObject = new System.Windows.Forms.ComboBox();
+            this.trackBarChange = new System.Windows.Forms.TrackBar();
             this.panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -66,7 +67,7 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarChange)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStamps)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCurrentPage)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
@@ -80,6 +81,7 @@
             this.splitContainer4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarChange)).BeginInit();
             this.SuspendLayout();
             // 
             // panelMain
@@ -192,6 +194,7 @@
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.dataGridViewStamps);
             this.splitContainer2.Panel1.Controls.Add(this.comboBoxChangeObject);
             this.splitContainer2.Panel1.Controls.Add(this.radioButtonChangeSize);
             this.splitContainer2.Panel1.Controls.Add(this.labelCurrentImage);
@@ -206,6 +209,27 @@
             this.splitContainer2.Size = new System.Drawing.Size(340, 450);
             this.splitContainer2.SplitterDistance = 163;
             this.splitContainer2.TabIndex = 0;
+            // 
+            // dataGridViewStamps
+            // 
+            this.dataGridViewStamps.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewStamps.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.dataGridViewStamps.Location = new System.Drawing.Point(0, 146);
+            this.dataGridViewStamps.Name = "dataGridViewStamps";
+            this.dataGridViewStamps.RowTemplate.Height = 25;
+            this.dataGridViewStamps.Size = new System.Drawing.Size(340, 17);
+            this.dataGridViewStamps.TabIndex = 9;
+            // 
+            // comboBoxChangeObject
+            // 
+            this.comboBoxChangeObject.FormattingEnabled = true;
+            this.comboBoxChangeObject.Items.AddRange(new object[] {
+            "Печать",
+            "Подпись"});
+            this.comboBoxChangeObject.Location = new System.Drawing.Point(117, 67);
+            this.comboBoxChangeObject.Name = "comboBoxChangeObject";
+            this.comboBoxChangeObject.Size = new System.Drawing.Size(121, 23);
+            this.comboBoxChangeObject.TabIndex = 8;
             // 
             // radioButtonChangeSize
             // 
@@ -222,26 +246,16 @@
             // labelCurrentImage
             // 
             this.labelCurrentImage.AutoSize = true;
-            this.labelCurrentImage.Location = new System.Drawing.Point(3, 74);
+            this.labelCurrentImage.Location = new System.Drawing.Point(4, 70);
             this.labelCurrentImage.Name = "labelCurrentImage";
             this.labelCurrentImage.Size = new System.Drawing.Size(107, 15);
             this.labelCurrentImage.TabIndex = 4;
             this.labelCurrentImage.Text = "Текущая картинка";
             // 
-            // trackBarChange
-            // 
-            this.trackBarChange.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.trackBarChange.Location = new System.Drawing.Point(0, 118);
-            this.trackBarChange.Maximum = 100;
-            this.trackBarChange.Name = "trackBarChange";
-            this.trackBarChange.Size = new System.Drawing.Size(340, 45);
-            this.trackBarChange.TabIndex = 3;
-            this.trackBarChange.Scroll += new System.EventHandler(this.trackBarChange_Scroll);
-            // 
             // labelCurrentPage
             // 
             this.labelCurrentPage.AutoSize = true;
-            this.labelCurrentPage.Location = new System.Drawing.Point(3, 38);
+            this.labelCurrentPage.Location = new System.Drawing.Point(3, 42);
             this.labelCurrentPage.Name = "labelCurrentPage";
             this.labelCurrentPage.Size = new System.Drawing.Size(108, 15);
             this.labelCurrentPage.TabIndex = 2;
@@ -379,16 +393,14 @@
             this.flowLayoutPanel2.Size = new System.Drawing.Size(334, 65);
             this.flowLayoutPanel2.TabIndex = 1;
             // 
-            // comboBoxChangeObject
+            // trackBarChange
             // 
-            this.comboBoxChangeObject.FormattingEnabled = true;
-            this.comboBoxChangeObject.Items.AddRange(new object[] {
-            "Печать",
-            "Подпись"});
-            this.comboBoxChangeObject.Location = new System.Drawing.Point(117, 71);
-            this.comboBoxChangeObject.Name = "comboBoxChangeObject";
-            this.comboBoxChangeObject.Size = new System.Drawing.Size(121, 23);
-            this.comboBoxChangeObject.TabIndex = 8;
+            this.trackBarChange.Location = new System.Drawing.Point(26, 104);
+            this.trackBarChange.Maximum = 100;
+            this.trackBarChange.Name = "trackBarChange";
+            this.trackBarChange.Size = new System.Drawing.Size(148, 45);
+            this.trackBarChange.TabIndex = 3;
+            this.trackBarChange.Scroll += new System.EventHandler(this.trackBarChange_Scroll);
             // 
             // Form1
             // 
@@ -412,7 +424,7 @@
             this.splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarChange)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStamps)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCurrentPage)).EndInit();
             this.panel1.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
@@ -427,6 +439,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarChange)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -456,10 +469,11 @@
         private TextBox textBoxEditMode;
         private NumericUpDown numericUpDownCurrentPage;
         private Label labelCurrentPage;
-        private TrackBar trackBarChange;
         private Label labelCurrentImage;
         private ToolStripMenuItem режимПросмотраToolStripMenuItem;
         private RadioButton radioButtonChangeSize;
         private ComboBox comboBoxChangeObject;
+        private DataGridView dataGridViewStamps;
+        private TrackBar trackBarChange;
     }
 }
