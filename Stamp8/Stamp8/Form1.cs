@@ -10,8 +10,8 @@ namespace Stamp8
     public partial class Form1 : Form
     {
         private string[] args;
-        private iText.Layout.Element.Image globalImageStamp;
-        private iText.Layout.Element.Image globalImageFacsimile;
+        //private iText.Layout.Element.Image globalImageStamp;
+        //private iText.Layout.Element.Image globalImageFacsimile;
         private int mode; //1-2-3
         private string outputPdfFilePath;
         private int pageCount;
@@ -126,6 +126,23 @@ namespace Stamp8
                     flowLayoutPanel2.Controls.Add(button1);
                 }
 
+            }
+            else if (mode == 2) 
+            {
+                for (var i = 1; i <= pageCount; i++)
+                {
+                    //скрываем базовые печати
+                    groupBox1.Visible = false;
+                    //печати без подписей
+                    var button = new Button();
+                    button.Text = $"Стр {i}";
+                    button.BackColor = System.Drawing.Color.LightBlue;
+                    button.Width = 50;
+                    button.Margin = new Padding(3); // Отступ между кнопками
+                    button.Click += Button_Click; // Обработчик события Click
+                    flowLayoutPanel1.Controls.Add(button);
+
+                }
             }
         }
 
