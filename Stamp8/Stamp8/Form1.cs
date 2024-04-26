@@ -15,10 +15,10 @@ namespace Stamp8
         private int mode; //1-2-3
         private string outputPdfFilePath;
         private int pageCount;
-        private bool editMode = false;
+        //private bool editMode = false;
         private int currentEditPage = 1;
-        private bool setFirst = true;
-        private int changeMode = 0; //1-масштаб
+        private bool PDFchanged = false;
+        //private int changeMode = 0; //1-масштаб
         private int firstStampCoordinateX = 100;
         private int firstStampCoordinateY = 100;
         private int firstStampWidth = 150;
@@ -32,25 +32,30 @@ namespace Stamp8
         private float widthPagePDF;
         private float heightPagePDF;
         private List<StampPictures> StampPicturesList = new List<StampPictures>();
-        //private PdfiumViewer.PdfDocument pdfDocumentViewver;
+        
         public Form1(string[] args, int mode)
         {
+            //очищаем таблицу параметров
             dataGridViewStamps = null;
-            //outputPdfFilePath = Path.GetTempFileName();
+            //передаем аргументы, полученные из командной строки
             this.args = args;
+            //присваиваем временному пути чистый pdf
             outputPdfFilePath = args[0];
+            //передаем режим работы
             this.mode = mode;
             InitializeComponent();
+            //устанавливаем глобальный счетчик страниц
             setPageCount();
-            //setStartSizeImage();
-            CreateGlobalImages();
-            //метод обновления отображения
+            //CreateGlobalImages();
+            //запускаем метод обновления отображения контрола pdf
             updatePDFViewer(args[0]);
             //метод заполнения кнопок печатей
             setButtons();
             //метод обновления режима редактиварония
             updateEditMode(false);
         }
+
+        
 
         private void setStartSizeImage()
         {
@@ -70,24 +75,19 @@ namespace Stamp8
         {
             if (value) 
             {
-                editMode = true;
                 textBoxEditMode.Text = "Режим редактирования";
                 textBoxEditMode.BackColor = System.Drawing.Color.Red;
                 labelCurrentPage.Visible = true;
                 numericUpDownCurrentPage.Visible = true;
                 numericUpDownCurrentPage.Maximum = pageCount;
                 установитьПечатиToolStripMenuItem.Visible = false;
-                if (mode == 3) 
-                {
-                   // comboBoxChangeObject.Maximum = 2;
-                }
                 режимПросмотраToolStripMenuItem.Visible = true;
                 режимРедактированияToolStripMenuItem.Visible = false;
                 dataGridViewStamps.Visible = true;
+                button1.Visible = true;
             }
             else
             {
-                editMode = false;
                 textBoxEditMode.Text = "Режим просмотра";
                 textBoxEditMode.BackColor = System.Drawing.Color.LightBlue;
                 labelCurrentPage.Visible = false;
@@ -96,6 +96,7 @@ namespace Stamp8
                 режимПросмотраToolStripMenuItem.Visible = false;
                 режимРедактированияToolStripMenuItem.Visible = true;
                 dataGridViewStamps.Visible = false;
+                button1.Visible = false;
             }
         }
 
@@ -131,7 +132,7 @@ namespace Stamp8
         private void updatePDFViewer(string updNamd)
         {
             pdfViewer1.Document = PdfiumViewer.PdfDocument.Load(updNamd);
-            pdfViewer1.Show();           
+            pdfViewer1.Show();             
         }
 
         private void setPageCount()
@@ -152,45 +153,33 @@ namespace Stamp8
 
                     // Высота страницы
                     heightPagePDF = pageSize.GetHeight();
-
-                    // Вывод размеров страницы
-                    //Console.WriteLine($"Размер страницы {i}: Ширина = {width}, Высота = {height}");
                 }
             }
         }
-
-        private void CreateGlobalImages()
-        {
-            if (mode== 1 || mode == 1)
-            {
-                 globalImageStamp     = new iText.Layout.Element.Image(ImageDataFactory.Create(args[1]));
-                 globalImageFacsimile = null;
-            }
-            else if (mode== 3)
-            {
-                globalImageStamp     = new iText.Layout.Element.Image(ImageDataFactory.Create(args[1]));
-                globalImageFacsimile = new iText.Layout.Element.Image(ImageDataFactory.Create(args[2]));
-            }
-
-        }
-
 
         private void установитьПечатиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            StampPicturesList.Clear();
-            outputPdfFilePath = args[0];
-            //if (setFirst) 
+            if (PDFchanged)
             {
-                if (mode == 3)
+                var result = MessageBox.Show("Если вы повторно установите печати и подписи, то предыдущие изменения не сохраняться.Продолжить операцию ?", "ВНИМАНИЕ!!!", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
                 {
-                    //setStampFirst();
+                    StampPicturesList.Clear();
+                    outputPdfFilePath = args[0];
                     setStamp3();
-                    setFirst = false;
+                }
+                else
+                {
+                   
                 }
             }
-            
-            //заполняем класс картинок
-            //setStampPicturesData();
+            else
+            {
+                StampPicturesList.Clear();
+                outputPdfFilePath = args[0];
+                setStamp3();
+            }
+
         }
 
         private void setStampFirst()
@@ -199,7 +188,8 @@ namespace Stamp8
         }
 
         private async void setStamp3()
-        {
+        {   
+            //очищаем класс печатей
             StampPicturesList.Clear();
             
             foreach (Control control in flowLayoutPanel1.Controls)
@@ -220,7 +210,7 @@ namespace Stamp8
                             int number;
                             if (int.TryParse(originalString, out number))
                             {
-                                MessageBox.Show("Ставим печать на странице №" + number);
+                                //MessageBox.Show("Ставим печать на странице №" + number);
                                 //await OverlayImageOnPDF5(outputPdfFilePath, args[1], firstStampCoordinateX, firstStampCoordinateY, firstStampWidth, firstStampHeight, number);
                                 //var pic1 = await OverlayImageOnPDF(outputPdfFilePath, args[1], firstStampCoordinateX, firstStampCoordinateY, firstStampWidth, firstStampHeight, number,1);
                                 // updatePDFViewer(outputPdfFilePath);
@@ -268,7 +258,7 @@ namespace Stamp8
                             int number;
                             if (int.TryParse(originalString, out number))
                             {
-                                MessageBox.Show("Ставим подпись на странице №" + number);
+                                //MessageBox.Show("Ставим подпись на странице №" + number);
                                 //await OverlayImageOnPDF5(outputPdfFilePath, args[1], firstStampCoordinateX, firstStampCoordinateY, firstStampWidth, firstStampHeight, number);
                                 //var pic1 = await OverlayImageOnPDF(outputPdfFilePath, args[1], firstStampCoordinateX, firstStampCoordinateY, firstStampWidth, firstStampHeight, number);
                                 // updatePDFViewer(outputPdfFilePath);
@@ -434,6 +424,8 @@ namespace Stamp8
             //var w = await OverlayImageOnPDF5(outputPdfFilePath, args[1], firstStampCoordinateX, firstStampCoordinateY, firstStampWidth, firstStampHeight, 1);
             updatePDFViewer(outputPdfFilePath);
         }
+
+        /*
         private async Task<string> OverlayImageOnPDF(string pdfFilePath, string imageFilePath, float x, float y, int width, int height, int pageNumber, int typePicture)
         {
             outputPdfFilePath = System.IO.Path.ChangeExtension(System.IO.Path.GetTempFileName(), ".pdf");
@@ -487,7 +479,7 @@ namespace Stamp8
 
 
             return outputPdfFilePath;
-        }
+        }*/
 
         private void режимРедактированияToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -589,6 +581,7 @@ namespace Stamp8
                     // Добавляем ячейки в строку
                     newRow.Cells.Add(new DataGridViewTextBoxCell { Value = imageTypeString });
                     newRow.Cells.Add(new DataGridViewTextBoxCell { Value = stampPicture.scale });
+                    newRow.Cells.Add(new DataGridViewTextBoxCell { Value = stampPicture.width });
 
 
                     newRow.Cells.Add(new DataGridViewTextBoxCell { Value = stampPicture.Id });
@@ -634,10 +627,32 @@ namespace Stamp8
                     // Очистить значение ячейки или выполнить другие действия при неверном вводе
                 }
             }
+
+            //по горизонтали
+            if (columnName == "XCoordinate" && cellValue != null)
+            {
+                if (int.TryParse(cellValue, out int scaleValue))
+                {
+                    //MessageBox.Show("Введено число: " + cellValue);
+                    if (scaleValue > 0 && scaleValue < 300)
+                    {
+                        updateDataStampPictures(Id, "x", cellValue);
+
+                    }
+                    else MessageBox.Show("Введено некорректное значение положения по горизонтали, исправьте: " + cellValue);
+
+                }
+                else
+                {
+                    MessageBox.Show("Пожалуйста, введите число в столбец " + columnName);
+                    // Очистить значение ячейки или выполнить другие действия при неверном вводе
+                }
+            }
         }
 
         private void updateDataStampPictures(Guid Id, string parameter, string value)
         {
+            PDFchanged = true;
             foreach (var stampPicture in StampPicturesList)
             {
                 if (stampPicture.Id == Id)
@@ -655,6 +670,19 @@ namespace Stamp8
                         {
                             stampPicture.width = (int)(firstFacsimileWidth * float.Parse(value));
                             stampPicture.height = (int)(firstFacsimileHeight * float.Parse(value));
+                        }
+                        CreatePDFOnStampPicturesList(true);
+                    }
+                    else if (parameter == "x")
+                    {
+                        stampPicture.xCoordinate = int.Parse(value);
+                        if (stampPicture.typePicture == 1)
+                        {
+                            stampPicture.xCoordinate = stampPicture.xCoordinate;                           
+                        }
+                        else if (stampPicture.typePicture == 2)
+                        {
+                            stampPicture.xCoordinate = stampPicture.xCoordinate;
                         }
                         CreatePDFOnStampPicturesList(true);
                     }

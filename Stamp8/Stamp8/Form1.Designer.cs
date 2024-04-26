@@ -42,6 +42,10 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.button1 = new System.Windows.Forms.Button();
             this.dataGridViewStamps = new System.Windows.Forms.DataGridView();
+            this.ImageType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Scale = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.XCoordinate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GUID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.labelCurrentPage = new System.Windows.Forms.Label();
             this.numericUpDownCurrentPage = new System.Windows.Forms.NumericUpDown();
             this.textBoxEditMode = new System.Windows.Forms.TextBox();
@@ -54,10 +58,6 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.ImageType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Scale = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.XCoordinate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GUID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -210,11 +210,11 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(183, 38);
+            this.button1.Location = new System.Drawing.Point(174, 38);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(154, 23);
             this.button1.TabIndex = 10;
-            this.button1.Text = "button1";
+            this.button1.Text = "ИЗМЕНИТЬ ЗНАЧЕНИЯ";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
@@ -234,6 +234,29 @@
             this.dataGridViewStamps.Size = new System.Drawing.Size(340, 96);
             this.dataGridViewStamps.TabIndex = 9;
             this.dataGridViewStamps.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewStamps_CellEndEdit);
+            // 
+            // ImageType
+            // 
+            this.ImageType.HeaderText = "Печать / Подпись";
+            this.ImageType.Name = "ImageType";
+            this.ImageType.ReadOnly = true;
+            // 
+            // Scale
+            // 
+            this.Scale.HeaderText = "Масштаб";
+            this.Scale.Name = "Scale";
+            // 
+            // XCoordinate
+            // 
+            this.XCoordinate.HeaderText = "Горизонтальное положение";
+            this.XCoordinate.Name = "XCoordinate";
+            // 
+            // GUID
+            // 
+            this.GUID.HeaderText = "GUID";
+            this.GUID.Name = "GUID";
+            this.GUID.ReadOnly = true;
+            this.GUID.Visible = false;
             // 
             // labelCurrentPage
             // 
@@ -267,6 +290,7 @@
             this.textBoxEditMode.Name = "textBoxEditMode";
             this.textBoxEditMode.Size = new System.Drawing.Size(340, 35);
             this.textBoxEditMode.TabIndex = 0;
+            this.textBoxEditMode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // panel1
             // 
@@ -376,29 +400,6 @@
             this.flowLayoutPanel2.Size = new System.Drawing.Size(334, 65);
             this.flowLayoutPanel2.TabIndex = 1;
             // 
-            // ImageType
-            // 
-            this.ImageType.HeaderText = "Печать / Подпись";
-            this.ImageType.Name = "ImageType";
-            this.ImageType.ReadOnly = true;
-            // 
-            // Scale
-            // 
-            this.Scale.HeaderText = "Масштаб";
-            this.Scale.Name = "Scale";
-            // 
-            // XCoordinate
-            // 
-            this.XCoordinate.HeaderText = "Горизонтальное положение";
-            this.XCoordinate.Name = "XCoordinate";
-            this.XCoordinate.ReadOnly = true;
-            // 
-            // GUID
-            // 
-            this.GUID.HeaderText = "GUID";
-            this.GUID.Name = "GUID";
-            this.GUID.ReadOnly = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -406,7 +407,7 @@
             this.ClientSize = new System.Drawing.Size(1015, 450);
             this.Controls.Add(this.panelMain);
             this.Name = "Form1";
-            this.Text = "Установщик факсимиле / печати Вастэко";
+            this.Text = "Установщик факсимиле / печати \"Вастэко\" Stamp8 v.1 ";
             this.panelMain.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
