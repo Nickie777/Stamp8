@@ -45,6 +45,8 @@
             this.ImageType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Scale = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.XCoordinate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.YCoordinate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Rotation = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GUID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.labelCurrentPage = new System.Windows.Forms.Label();
             this.numericUpDownCurrentPage = new System.Windows.Forms.NumericUpDown();
@@ -226,6 +228,8 @@
             this.ImageType,
             this.Scale,
             this.XCoordinate,
+            this.YCoordinate,
+            this.Rotation,
             this.GUID});
             this.dataGridViewStamps.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dataGridViewStamps.Location = new System.Drawing.Point(0, 67);
@@ -250,6 +254,16 @@
             // 
             this.XCoordinate.HeaderText = "Горизонтальное положение";
             this.XCoordinate.Name = "XCoordinate";
+            // 
+            // YCoordinate
+            // 
+            this.YCoordinate.HeaderText = "Вертикальное положение";
+            this.YCoordinate.Name = "YCoordinate";
+            // 
+            // Rotation
+            // 
+            this.Rotation.HeaderText = "Угол вращения";
+            this.Rotation.Name = "Rotation";
             // 
             // GUID
             // 
@@ -368,7 +382,7 @@
             this.groupBox2.Size = new System.Drawing.Size(340, 91);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Печать без подписи";
+            this.groupBox2.Text = "Печать";
             // 
             // flowLayoutPanel1
             // 
@@ -472,6 +486,8 @@
         private DataGridViewTextBoxColumn ImageType;
         private DataGridViewTextBoxColumn Scale;
         private DataGridViewTextBoxColumn XCoordinate;
+        private DataGridViewTextBoxColumn YCoordinate;
+        private DataGridViewTextBoxColumn Rotation;
         private DataGridViewTextBoxColumn GUID;
     }
 }

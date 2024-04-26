@@ -8,16 +8,29 @@ namespace Stamp8
         [STAThread]
         static void Main(string[] args)
         {
-            ApplicationConfiguration.Initialize();
-            string[] argsTest = { "C:\\test\\testStamp8\\file.pdf", "C:\\test\\testStamp8\\stamp_.png", "C:\\test\\testStamp8\\facsimile.png"};
-            args = argsTest;
-            //выбираем вариант работы в зависимости от количества аргументов
-            if (args.Length == 3 ) 
-            {                
-                Application.Run(new Form1(args, 3));
+            if (args != null)
+            {
+                ApplicationConfiguration.Initialize();
+                //string[] argsTest = { "C:\\test\\testStamp8\\file.pdf", "C:\\test\\testStamp8\\stamp_.png", "C:\\test\\testStamp8\\facsimile.png" };
+                //args = argsTest;
+                //выбираем вариант работы в зависимости от количества аргументов
+                if (args.Length == 3)
+                {
+                    Application.Run(new Form1(args, 3));
+                }
+                else if (args.Length == 2)
+                {
+                    Application.Run(new Form1(args, 2));
+                }
+                else if (args.Length == 1)
+                {
+                    MessageBox.Show("ѕередан только один аргумент. ”становка печати невозможна");
+                }
+                MessageBox.Show("«апуск программы необходимо осуществл€ть из 1—");
             }
-            
-            
+
+
+
         }
     }
 }
