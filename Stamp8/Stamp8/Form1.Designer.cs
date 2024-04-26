@@ -40,10 +40,8 @@
             this.заполнитьКнопкиПечатейToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.тестToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.button1 = new System.Windows.Forms.Button();
             this.dataGridViewStamps = new System.Windows.Forms.DataGridView();
-            this.comboBoxChangeObject = new System.Windows.Forms.ComboBox();
-            this.radioButtonChangeSize = new System.Windows.Forms.RadioButton();
-            this.labelCurrentImage = new System.Windows.Forms.Label();
             this.labelCurrentPage = new System.Windows.Forms.Label();
             this.numericUpDownCurrentPage = new System.Windows.Forms.NumericUpDown();
             this.textBoxEditMode = new System.Windows.Forms.TextBox();
@@ -56,7 +54,10 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.trackBarChange = new System.Windows.Forms.TrackBar();
+            this.ImageType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Scale = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.XCoordinate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GUID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -81,7 +82,6 @@
             this.splitContainer4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarChange)).BeginInit();
             this.SuspendLayout();
             // 
             // panelMain
@@ -170,6 +170,7 @@
             this.служебныеToolStripMenuItem.Name = "служебныеToolStripMenuItem";
             this.служебныеToolStripMenuItem.Size = new System.Drawing.Size(84, 20);
             this.служебныеToolStripMenuItem.Text = "Служебные";
+            this.служебныеToolStripMenuItem.Visible = false;
             // 
             // заполнитьКнопкиПечатейToolStripMenuItem
             // 
@@ -194,11 +195,8 @@
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.button1);
             this.splitContainer2.Panel1.Controls.Add(this.dataGridViewStamps);
-            this.splitContainer2.Panel1.Controls.Add(this.comboBoxChangeObject);
-            this.splitContainer2.Panel1.Controls.Add(this.radioButtonChangeSize);
-            this.splitContainer2.Panel1.Controls.Add(this.labelCurrentImage);
-            this.splitContainer2.Panel1.Controls.Add(this.trackBarChange);
             this.splitContainer2.Panel1.Controls.Add(this.labelCurrentPage);
             this.splitContainer2.Panel1.Controls.Add(this.numericUpDownCurrentPage);
             this.splitContainer2.Panel1.Controls.Add(this.textBoxEditMode);
@@ -210,47 +208,32 @@
             this.splitContainer2.SplitterDistance = 163;
             this.splitContainer2.TabIndex = 0;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(183, 38);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 10;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // dataGridViewStamps
             // 
+            this.dataGridViewStamps.AllowUserToAddRows = false;
             this.dataGridViewStamps.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewStamps.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ImageType,
+            this.Scale,
+            this.XCoordinate,
+            this.GUID});
             this.dataGridViewStamps.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dataGridViewStamps.Location = new System.Drawing.Point(0, 146);
+            this.dataGridViewStamps.Location = new System.Drawing.Point(0, 67);
             this.dataGridViewStamps.Name = "dataGridViewStamps";
             this.dataGridViewStamps.RowTemplate.Height = 25;
-            this.dataGridViewStamps.Size = new System.Drawing.Size(340, 17);
+            this.dataGridViewStamps.Size = new System.Drawing.Size(340, 96);
             this.dataGridViewStamps.TabIndex = 9;
-            // 
-            // comboBoxChangeObject
-            // 
-            this.comboBoxChangeObject.FormattingEnabled = true;
-            this.comboBoxChangeObject.Items.AddRange(new object[] {
-            "Печать",
-            "Подпись"});
-            this.comboBoxChangeObject.Location = new System.Drawing.Point(117, 67);
-            this.comboBoxChangeObject.Name = "comboBoxChangeObject";
-            this.comboBoxChangeObject.Size = new System.Drawing.Size(121, 23);
-            this.comboBoxChangeObject.TabIndex = 8;
-            // 
-            // radioButtonChangeSize
-            // 
-            this.radioButtonChangeSize.AutoSize = true;
-            this.radioButtonChangeSize.Location = new System.Drawing.Point(174, 38);
-            this.radioButtonChangeSize.Name = "radioButtonChangeSize";
-            this.radioButtonChangeSize.Size = new System.Drawing.Size(122, 19);
-            this.radioButtonChangeSize.TabIndex = 7;
-            this.radioButtonChangeSize.TabStop = true;
-            this.radioButtonChangeSize.Text = "Изменить размер";
-            this.radioButtonChangeSize.UseVisualStyleBackColor = true;
-            this.radioButtonChangeSize.CheckedChanged += new System.EventHandler(this.radioButtonChangeSize_CheckedChanged);
-            // 
-            // labelCurrentImage
-            // 
-            this.labelCurrentImage.AutoSize = true;
-            this.labelCurrentImage.Location = new System.Drawing.Point(4, 70);
-            this.labelCurrentImage.Name = "labelCurrentImage";
-            this.labelCurrentImage.Size = new System.Drawing.Size(107, 15);
-            this.labelCurrentImage.TabIndex = 4;
-            this.labelCurrentImage.Text = "Текущая картинка";
+            this.dataGridViewStamps.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewStamps_CellEndEdit);
             // 
             // labelCurrentPage
             // 
@@ -393,14 +376,28 @@
             this.flowLayoutPanel2.Size = new System.Drawing.Size(334, 65);
             this.flowLayoutPanel2.TabIndex = 1;
             // 
-            // trackBarChange
+            // ImageType
             // 
-            this.trackBarChange.Location = new System.Drawing.Point(26, 104);
-            this.trackBarChange.Maximum = 100;
-            this.trackBarChange.Name = "trackBarChange";
-            this.trackBarChange.Size = new System.Drawing.Size(148, 45);
-            this.trackBarChange.TabIndex = 3;
-            this.trackBarChange.Scroll += new System.EventHandler(this.trackBarChange_Scroll);
+            this.ImageType.HeaderText = "Печать / Подпись";
+            this.ImageType.Name = "ImageType";
+            this.ImageType.ReadOnly = true;
+            // 
+            // Scale
+            // 
+            this.Scale.HeaderText = "Масштаб";
+            this.Scale.Name = "Scale";
+            // 
+            // XCoordinate
+            // 
+            this.XCoordinate.HeaderText = "Горизонтальное положение";
+            this.XCoordinate.Name = "XCoordinate";
+            this.XCoordinate.ReadOnly = true;
+            // 
+            // GUID
+            // 
+            this.GUID.HeaderText = "GUID";
+            this.GUID.Name = "GUID";
+            this.GUID.ReadOnly = true;
             // 
             // Form1
             // 
@@ -439,7 +436,6 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarChange)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -469,11 +465,12 @@
         private TextBox textBoxEditMode;
         private NumericUpDown numericUpDownCurrentPage;
         private Label labelCurrentPage;
-        private Label labelCurrentImage;
         private ToolStripMenuItem режимПросмотраToolStripMenuItem;
-        private RadioButton radioButtonChangeSize;
-        private ComboBox comboBoxChangeObject;
         private DataGridView dataGridViewStamps;
-        private TrackBar trackBarChange;
+        private Button button1;
+        private DataGridViewTextBoxColumn ImageType;
+        private DataGridViewTextBoxColumn Scale;
+        private DataGridViewTextBoxColumn XCoordinate;
+        private DataGridViewTextBoxColumn GUID;
     }
 }

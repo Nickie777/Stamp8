@@ -3,6 +3,7 @@ using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas;
 using Document = iText.Layout.Document;
 using iText.Layout;
+using System.ComponentModel;
 
 namespace Stamp8
 {
@@ -20,32 +21,49 @@ namespace Stamp8
         private int changeMode = 0; //1-масштаб
         private int firstStampCoordinateX = 100;
         private int firstStampCoordinateY = 100;
-        private int firstStampWidth = 200;
-        private int firstStampHeight = 200;
-        private float firstStampScale = 2;
+        private int firstStampWidth = 150;
+        private int firstStampHeight = 150;
+        private float firstStampScale = 1;
         private int firstFacsimileCoordinateX = 150;
         private int firstFacsimileCoordinateY = 150;
-        private float firstFacsimileScale = 2;
+        private int firstFacsimileWidth = 100;
+        private int firstFacsimileHeight = 100;
+        private float firstFacsimileScale = 1;
         private float widthPagePDF;
         private float heightPagePDF;
         private List<StampPictures> StampPicturesList = new List<StampPictures>();
         //private PdfiumViewer.PdfDocument pdfDocumentViewver;
         public Form1(string[] args, int mode)
         {
+            dataGridViewStamps = null;
             //outputPdfFilePath = Path.GetTempFileName();
             this.args = args;
             outputPdfFilePath = args[0];
             this.mode = mode;
             InitializeComponent();
             setPageCount();
+            //setStartSizeImage();
             CreateGlobalImages();
             //метод обновления отображения
             updatePDFViewer(args[0]);
             //метод заполнения кнопок печатей
             setButtons();
-            dataGridViewStamps.DataSource= StampPicturesList;
             //метод обновления режима редактиварония
             updateEditMode(false);
+        }
+
+        private void setStartSizeImage()
+        {
+            if (mode == 3) 
+            {
+                iText.Layout.Element.Image image1 = new iText.Layout.Element.Image(ImageDataFactory.Create(args[1]));
+                firstStampWidth = (int)image1.GetImageWidth();
+                firstStampHeight = (int)image1.GetImageHeight();
+                iText.Layout.Element.Image image2 = new iText.Layout.Element.Image(ImageDataFactory.Create(args[2]));
+                firstFacsimileWidth = (int)image1.GetImageWidth();
+                firstFacsimileHeight = (int)image1.GetImageHeight();
+            }
+           
         }
 
         private void updateEditMode(bool value)
@@ -58,15 +76,11 @@ namespace Stamp8
                 labelCurrentPage.Visible = true;
                 numericUpDownCurrentPage.Visible = true;
                 numericUpDownCurrentPage.Maximum = pageCount;
-                comboBoxChangeObject.Visible = true;
-                labelCurrentImage.Visible = true;
-                trackBarChange.Visible = true;
                 установитьПечатиToolStripMenuItem.Visible = false;
                 if (mode == 3) 
                 {
                    // comboBoxChangeObject.Maximum = 2;
                 }
-                radioButtonChangeSize.Visible = true;
                 режимПросмотраToolStripMenuItem.Visible = true;
                 режимРедактированияToolStripMenuItem.Visible = false;
                 dataGridViewStamps.Visible = true;
@@ -78,11 +92,7 @@ namespace Stamp8
                 textBoxEditMode.BackColor = System.Drawing.Color.LightBlue;
                 labelCurrentPage.Visible = false;
                 numericUpDownCurrentPage.Visible = false;
-                comboBoxChangeObject.Visible = false;
-                labelCurrentImage.Visible = false;
-                trackBarChange.Visible = false;
                 установитьПечатиToolStripMenuItem.Visible = true;
-                radioButtonChangeSize.Visible = false;
                 режимПросмотраToolStripMenuItem.Visible = false;
                 режимРедактированияToolStripMenuItem.Visible = true;
                 dataGridViewStamps.Visible = false;
@@ -224,6 +234,7 @@ namespace Stamp8
                                 stampPictures.yCoordinate = firstStampCoordinateY;
                                 stampPictures.scale= firstStampScale;
                                 stampPictures.rotation = 0;
+                                stampPictures.Id = Guid.NewGuid();
                                 StampPicturesList.Add(stampPictures);
                                 //updatePDFViewer(outputPdfFilePath);
                                 //MessageBox.Show(outputPdfFilePath);
@@ -264,13 +275,14 @@ namespace Stamp8
                                 //var pic2 = await OverlayImageOnPDF(outputPdfFilePath, args[2], firstFacsimileCoordinateX, firstFacsimileCoordinateY, firstStampWidth, firstStampHeight, number,2);
                                 StampPictures stampPictures = new StampPictures();
                                 stampPictures.typePicture = 2;
-                                stampPictures.height = firstStampHeight;
-                                stampPictures.width = firstStampWidth;
+                                stampPictures.height = firstFacsimileHeight;
+                                stampPictures.width = firstFacsimileWidth;
                                 stampPictures.pageNumber = number;
                                 stampPictures.xCoordinate = firstFacsimileCoordinateX;
                                 stampPictures.yCoordinate = firstFacsimileCoordinateY;
                                 stampPictures.scale = firstFacsimileScale;
                                 stampPictures.rotation = 0;
+                                stampPictures.Id = Guid.NewGuid();
                                 StampPicturesList.Add(stampPictures);
                                 //updatePDFViewer(outputPdfFilePath);
                                 //MessageBox.Show(outputPdfFilePath);
@@ -286,27 +298,29 @@ namespace Stamp8
                 }
             }
 
-            CreatePDFOnStampPicturesList();
+            CreatePDFOnStampPicturesList(false);
 
         }
 
-        private async void CreatePDFOnStampPicturesList()
+        private async void CreatePDFOnStampPicturesList(bool isUpdate)
         {
             foreach (var indexer in StampPicturesList) 
             { 
                 if (indexer != null) 
                 {
-                    if (indexer.typePicture == 1) 
-                    {
+                   if (isUpdate) outputPdfFilePath = args[0];
+                     if (indexer.typePicture == 1) 
+                     {
                         //outputPdfFilePath = System.IO.Path.ChangeExtension(System.IO.Path.GetTempFileName(), ".pdf");
                         outputPdfFilePath = await OverlayImageOnPDF8(outputPdfFilePath, args[1], indexer.xCoordinate, indexer.yCoordinate, indexer.width, indexer.width, indexer.pageNumber, indexer.typePicture, indexer.scale, indexer.rotation);
-                    }
+                        isUpdate= false;
+                     }
                     
                     if (indexer.typePicture == 2)
                     {
                         //outputPdfFilePath = System.IO.Path.ChangeExtension(System.IO.Path.GetTempFileName(), ".pdf");
                         outputPdfFilePath = await OverlayImageOnPDF8(outputPdfFilePath, args[2], indexer.xCoordinate, indexer.yCoordinate, indexer.width, indexer.width, indexer.pageNumber, indexer.typePicture, indexer.scale, indexer.rotation);
-
+                        isUpdate = false;
                     }
                 }
                 updatePDFViewer(outputPdfFilePath);
@@ -490,18 +504,8 @@ namespace Stamp8
             currentEditPage = (int)numericUpDownCurrentPage.Value;
         }
 
-        private void radioButtonChangeSize_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioButtonChangeSize.Checked) 
-            {
-                changeMode = 1;
-                //заполняем ширину трэкбара
-                trackBarChange.Maximum = 10;
-                //MessageBox.Show(((int)widthPagePDF).ToString());
 
-            }            
-        }
-
+/*
         private async void trackBarChange_Scroll(object sender, EventArgs e)
         {
             if (changeMode== 0) 
@@ -547,7 +551,7 @@ namespace Stamp8
                     }
                 }
             }
-        }
+        }*/
 
         async Task<string> updateAddingImage(StampPictures stampPicture)
         {
@@ -566,6 +570,101 @@ namespace Stamp8
             }
 
             return outputPdfFilePath;
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+             
+            dataGridViewStamps.Visible = true;
+            dataGridViewStamps.Rows.Clear();
+            
+            foreach (var stampPicture in StampPicturesList)
+            {
+                if (currentEditPage == stampPicture.pageNumber)
+                {
+                    string imageTypeString = String.Empty;
+                    if (stampPicture.typePicture == 1) imageTypeString = "Печать";
+                    if (stampPicture.typePicture == 2) imageTypeString = "Подпись";
+                    DataGridViewRow newRow = new DataGridViewRow();
+                    // Добавляем ячейки в строку
+                    newRow.Cells.Add(new DataGridViewTextBoxCell { Value = imageTypeString });
+                    newRow.Cells.Add(new DataGridViewTextBoxCell { Value = stampPicture.scale });
+
+
+                    newRow.Cells.Add(new DataGridViewTextBoxCell { Value = stampPicture.Id });
+                    dataGridViewStamps.Rows.Add(newRow);
+                }
+            }
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+        private void dataGridViewStamps_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            string columnName = dataGridViewStamps.Columns[e.ColumnIndex].Name;
+            string cellValue  = dataGridViewStamps.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString();
+            int    IdIndex    = dataGridViewStamps.Columns["GUID"].Index;
+            Guid Id = (Guid)dataGridViewStamps.Rows[e.RowIndex].Cells[IdIndex].Value;
+
+            if (columnName == "Scale" && cellValue != null)
+            {
+                if (float.TryParse(cellValue, out float scaleValue))
+                {
+                    //MessageBox.Show("Введено число: " + cellValue);
+                    if (scaleValue > 0 && scaleValue < 10) 
+                    {
+                        updateDataStampPictures(Id,"scale", cellValue);
+
+                    }
+                    else MessageBox.Show("Введено некорректное значение масштаба, исправьте: " + cellValue);
+
+                }
+                else
+                {
+                    MessageBox.Show("Пожалуйста, введите число в столбец " + columnName);
+                    // Очистить значение ячейки или выполнить другие действия при неверном вводе
+                }
+            }
+        }
+
+        private void updateDataStampPictures(Guid Id, string parameter, string value)
+        {
+            foreach (var stampPicture in StampPicturesList)
+            {
+                if (stampPicture.Id == Id)
+                {
+                    if (parameter == "scale")
+                    {
+                        stampPicture.scale = float.Parse(value);
+                        if (stampPicture.typePicture == 1)
+                        {
+                            stampPicture.width = (int)(firstStampWidth * float.Parse(value));
+                            stampPicture.height = (int)(firstStampHeight * float.Parse(value));
+                           
+                        }
+                        else if (stampPicture.typePicture == 2)
+                        {
+                            stampPicture.width = (int)(firstFacsimileWidth * float.Parse(value));
+                            stampPicture.height = (int)(firstFacsimileHeight * float.Parse(value));
+                        }
+                        CreatePDFOnStampPicturesList(true);
+                    }
+
+
+
+                }
+
+
+            }
         }
     }
 }
