@@ -37,22 +37,32 @@ namespace Stamp8
         {
             //очищаем таблицу параметров
             dataGridViewStamps = null;
+            //MessageBox.Show("Ётап 1");
             //передаем аргументы, полученные из командной строки
             this.args = args;
+            //MessageBox.Show("Ётап 2");
             //присваиваем временному пути чистый pdf
             outputPdfFilePath = args[0];
+            //MessageBox.Show("Ётап 3");
+
             //передаем режим работы
             this.mode = mode;
+            //MessageBox.Show("Ётап 4");
             InitializeComponent();
+            //MessageBox.Show("Ётап 5");
             //устанавливаем глобальный счетчик страниц
             setPageCount();
+            //MessageBox.Show("Ётап 6");
             //CreateGlobalImages();
             //запускаем метод обновлени€ отображени€ контрола pdf
             updatePDFViewer(args[0]);
+            //MessageBox.Show("Ётап 7");
             //метод заполнени€ кнопок печатей
             setButtons();
+            //MessageBox.Show("Ётап 8");
             //метод обновлени€ режима редактиварони€
             updateEditMode(false);
+            //MessageBox.Show("Ётап 9");
         }
 
         
@@ -146,10 +156,49 @@ namespace Stamp8
             }
         }
 
-        private void updatePDFViewer(string updNamd)
+
+        static async Task CopyFileAsync(string sourceFilePath, string targetFilePath)
         {
-            pdfViewer1.Document = PdfiumViewer.PdfDocument.Load(updNamd);
-            pdfViewer1.Show();             
+            using (FileStream sourceStream = new FileStream(sourceFilePath, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true))
+            using (FileStream targetStream = new FileStream(targetFilePath, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true))
+            {
+                await sourceStream.CopyToAsync(targetStream);
+            }
+        }
+
+        private async void updatePDFViewer(string updNamd)
+        {
+
+            // ѕровер€ем существование исходного файла
+            documentViewer1.LoadDocument(updNamd);
+            documentViewer1.Show();
+            /*if (File.Exists(updNamd))
+            {
+                try
+                {
+                    var targetFilePath = System.IO.Path.ChangeExtension(System.IO.Path.GetTempFileName(), ".pdf");
+                    //  опируем исходный файл во временный файл
+                    //await CopyFileAsync(updNamd, targetFilePath);
+                    //File.Copy(updNamd, targetFilePath, true);
+                    //pdfRenderer1.Document = PdfiumViewer.PdfDocument.Load(targetFilePath);
+                   // pdfViewerSpire.LoadFromFile(updNamd);
+                    //pdfDocumentViewer1.LoadFromFile(updNamd);
+                    //pdfViewer1.Document = PdfiumViewer.PdfDocument.Load(targetFilePath);
+                    //pdfViewer1.Show();  
+                    //Console.WriteLine("‘айл успешно скоп
+                    //
+                    //ирован.");
+                }
+                catch (IOException ex)
+                {
+                    MessageBox.Show($"ќшибка при копировании файла: {ex.Message}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("»сходный файл не существует.");
+            }*/
+           
         }
 
         private void setPageCount()
@@ -652,5 +701,7 @@ namespace Stamp8
 
             }
         }
+
+
     }
 }

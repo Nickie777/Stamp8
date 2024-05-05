@@ -13,11 +13,9 @@
     <SourceRoot Include="C:\Users\Пользователь\.nuget\packages\" />
     <SourceRoot Include="C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages\" />
   </ItemGroup>
-  <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Import Project="$(NuGetPackageRoot)pdfiumviewer.native.x86_64.v8-xfa\2018.4.8.256\Build\PdfiumViewer.Native.x86_64.v8-xfa.props" Condition="Exists('$(NuGetPackageRoot)pdfiumviewer.native.x86_64.v8-xfa\2018.4.8.256\Build\PdfiumViewer.Native.x86_64.v8-xfa.props')" />
-    <Import Project="$(NuGetPackageRoot)pdfiumviewer.native.x86.v8-xfa\2018.4.8.256\Build\PdfiumViewer.Native.x86.v8-xfa.props" Condition="Exists('$(NuGetPackageRoot)pdfiumviewer.native.x86.v8-xfa\2018.4.8.256\Build\PdfiumViewer.Native.x86.v8-xfa.props')" />
-  </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgPdfium_Net_SDK Condition=" '$(PkgPdfium_Net_SDK)' == '' ">C:\Users\Пользователь\.nuget\packages\pdfium.net.sdk\4.89.2704</PkgPdfium_Net_SDK>
+    <PkgGnostice_DocumentStudio_Printer Condition=" '$(PkgGnostice_DocumentStudio_Printer)' == '' ">C:\Users\Пользователь\.nuget\packages\gnostice.documentstudio.printer\23.2.211</PkgGnostice_DocumentStudio_Printer>
+    <PkgGnostice_DocumentStudio_WinForms_Free Condition=" '$(PkgGnostice_DocumentStudio_WinForms_Free)' == '' ">C:\Users\Пользователь\.nuget\packages\gnostice.documentstudio.winforms.free\23.2.211</PkgGnostice_DocumentStudio_WinForms_Free>
   </PropertyGroup>
 </Project>
