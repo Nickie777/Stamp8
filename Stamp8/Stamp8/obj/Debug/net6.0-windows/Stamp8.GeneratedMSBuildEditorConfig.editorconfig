@@ -14,4 +14,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Stamp8
-build_property.ProjectDir = C:\repos\Stamp8\Stamp8\Stamp8\
+build_property.ProjectDir = C:\source\repos\Stamp8\Stamp8\Stamp8\Stamp8\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

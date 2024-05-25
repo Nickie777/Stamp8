@@ -5,17 +5,16 @@
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
     <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
     <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\Пользователь\.nuget\packages\;C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages</NuGetPackageFolders>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\Nick\.nuget\packages\</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
-    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.4.0</NuGetToolVersion>
+    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.9.2</NuGetToolVersion>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <SourceRoot Include="C:\Users\Пользователь\.nuget\packages\" />
-    <SourceRoot Include="C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages\" />
+    <SourceRoot Include="C:\Users\Nick\.nuget\packages\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgPdfium_Net_SDK Condition=" '$(PkgPdfium_Net_SDK)' == '' ">C:\Users\Пользователь\.nuget\packages\pdfium.net.sdk\4.89.2704</PkgPdfium_Net_SDK>
-    <PkgGnostice_DocumentStudio_Printer Condition=" '$(PkgGnostice_DocumentStudio_Printer)' == '' ">C:\Users\Пользователь\.nuget\packages\gnostice.documentstudio.printer\23.2.211</PkgGnostice_DocumentStudio_Printer>
-    <PkgGnostice_DocumentStudio_WinForms_Free Condition=" '$(PkgGnostice_DocumentStudio_WinForms_Free)' == '' ">C:\Users\Пользователь\.nuget\packages\gnostice.documentstudio.winforms.free\23.2.211</PkgGnostice_DocumentStudio_WinForms_Free>
+    <PkgPdfium_Net_SDK Condition=" '$(PkgPdfium_Net_SDK)' == '' ">C:\Users\Nick\.nuget\packages\pdfium.net.sdk\4.89.2704</PkgPdfium_Net_SDK>
+    <PkgGnostice_DocumentStudio_Printer Condition=" '$(PkgGnostice_DocumentStudio_Printer)' == '' ">C:\Users\Nick\.nuget\packages\gnostice.documentstudio.printer\23.2.211</PkgGnostice_DocumentStudio_Printer>
+    <PkgGnostice_DocumentStudio_WinForms_Free Condition=" '$(PkgGnostice_DocumentStudio_WinForms_Free)' == '' ">C:\Users\Nick\.nuget\packages\gnostice.documentstudio.winforms.free\23.2.211</PkgGnostice_DocumentStudio_WinForms_Free>
   </PropertyGroup>
 </Project>
